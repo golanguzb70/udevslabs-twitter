@@ -3,6 +3,7 @@ package handler
 import (
 	"errors"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golanguzb70/udevslabs-twitter/config"
@@ -54,7 +55,6 @@ func (h Handler) HandleDbError(c *gin.Context, err error, message string) bool {
 				Code:    config.ErrorInvalidRequest,
 			}
 			statusCode = http.StatusBadRequest
-
 		default:
 			// General PostgreSQL error
 			errorResponse = entity.ErrorResponse{
@@ -63,10 +63,17 @@ func (h Handler) HandleDbError(c *gin.Context, err error, message string) bool {
 			}
 		}
 	default:
-		// General PostgreSQL error
-		errorResponse = entity.ErrorResponse{
-			Message: "Ooops! Something went wrong.",
-			Code:    config.ErrorInternalServer,
+		if strings.Contains(err.Error(), "BAD_REQUEST") {
+			errorResponse = entity.ErrorResponse{
+				Message: strings.TrimPrefix(err.Error(), "BAD_REQUEST"),
+				Code:    config.ErrorBadRequest,
+			}
+		} else {
+			// General PostgreSQL error
+			errorResponse = entity.ErrorResponse{
+				Message: "Ooops! Something went wrong.",
+				Code:    config.ErrorInternalServer,
+			}
 		}
 	}
 

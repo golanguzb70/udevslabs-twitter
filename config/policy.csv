@@ -10,5 +10,8 @@ p, admin, /v1/user/*, GET|POST|PUT|DELETE
 p, user, /v1/session/*, GET|DELETE
 p, admin, /v1/session/*, GET|POST|PUT|DELETE
 
+p, admin, /v1/tag/*, GET|POST|PUT|DELETE
+p, user, /v1/follower, GET|POST
+
 g, user, unauthorized
 g, admin, user

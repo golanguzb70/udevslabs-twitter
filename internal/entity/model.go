@@ -1,7 +1,8 @@
 package entity
 
 type Id struct {
-	ID string `json:"id"`
+	ID   string `json:"id"`
+	Slug string `json:"slug"`
 }
 
 type OrderBy struct {

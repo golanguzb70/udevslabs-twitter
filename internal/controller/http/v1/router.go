@@ -77,4 +77,21 @@ func NewRouter(engine *gin.Engine, l *logger.Logger, config *config.Config, useC
 		auth.POST("/verify-email", handlerV1.VerifyEmail)
 		auth.POST("/login", handlerV1.Login)
 	}
+
+	tag := v1.Group("/tag")
+	{
+		tag.POST("/", handlerV1.CreateTag)
+		tag.GET("/list", handlerV1.GetTags)
+		tag.GET("/:id", handlerV1.GetTag)
+		tag.PUT("/", handlerV1.UpdateTag)
+		tag.DELETE("/:id", handlerV1.DeleteTag)
+	}
+
+	follower := v1.Group("/follower")
+	{
+		follower.POST("/", handlerV1.FollowUnfollow)
+		follower.GET("/list", handlerV1.GetFollowers)
+	}
+
+	
 }

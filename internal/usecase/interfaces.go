@@ -29,4 +29,27 @@ type (
 		Delete(ctx context.Context, req entity.Id) error
 		UpdateField(ctx context.Context, req entity.UpdateFieldRequest) (entity.RowsEffected, error)
 	}
+
+	// Tag Repo
+	TagRepoI interface {
+		Create(ctx context.Context, req entity.Tag) (entity.Tag, error)
+		GetSingle(ctx context.Context, req entity.Id) (entity.Tag, error)
+		GetList(ctx context.Context, req entity.GetListFilter) (entity.TagList, error)
+		Update(ctx context.Context, req entity.Tag) (entity.Tag, error)
+		Delete(ctx context.Context, req entity.Id) error
+		UpdateField(ctx context.Context, req entity.UpdateFieldRequest) (entity.RowsEffected, error)
+	}
+
+	// User Tag Repo
+	UserTagRepoI interface {
+		Create(ctx context.Context, req entity.UserTag) (entity.UserTag, error)
+		Delete(ctx context.Context, req entity.Id) error
+		GetList(ctx context.Context, req entity.GetListFilter) (entity.UserTagList, error)
+	}
+
+	// Follower Repo
+	FollowerRepoI interface {
+		UpsertOrRemove(ctx context.Context, req entity.Follower) (entity.Follower, error)
+		GetList(ctx context.Context, req entity.GetListFilter) (entity.UserList, error)
+	}
 )
