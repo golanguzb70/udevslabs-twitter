@@ -93,5 +93,13 @@ func NewRouter(engine *gin.Engine, l *logger.Logger, config *config.Config, useC
 		follower.GET("/list", handlerV1.GetFollowers)
 	}
 
-	
+	tweet := v1.Group("/tweet")
+	{
+		tweet.POST("/", handlerV1.CreateTweet)
+		tweet.GET("/list", handlerV1.GetTweets)
+		tweet.GET("/:id", handlerV1.GetTweet)
+		tweet.PUT("/", handlerV1.UpdateTweet)
+		tweet.DELETE("/:id", handlerV1.DeleteTweet)
+	}
+
 }

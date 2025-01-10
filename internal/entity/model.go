@@ -24,8 +24,8 @@ type GetListFilter struct {
 }
 
 type UpdateFieldItem struct {
-	Column string `json:"column"`
-	Value  string `json:"value"`
+	Column string      `json:"column"`
+	Value  interface{} `json:"value"`
 }
 
 type UpdateFieldRequest struct {

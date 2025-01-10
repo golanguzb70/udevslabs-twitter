@@ -1,5 +1,18 @@
 basePath: /v1
 definitions:
+  entity.Attachment:
+    properties:
+      content_type:
+        type: string
+      created_at:
+        type: string
+      file_path:
+        type: string
+      id:
+        type: string
+      updated_at:
+        type: string
+    type: object
   entity.ErrorResponse:
     properties:
       code:
@@ -97,6 +110,40 @@ definitions:
       items:
         items:
           $ref: '#/definitions/entity.Tag'
+        type: array
+    type: object
+  entity.Tweet:
+    properties:
+      attachments:
+        items:
+          $ref: '#/definitions/entity.Attachment'
+        type: array
+      content:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      owner:
+        $ref: '#/definitions/entity.User'
+      status:
+        type: string
+      tags:
+        additionalProperties:
+          items:
+            type: string
+          type: array
+        type: object
+      updated_at:
+        type: string
+    type: object
+  entity.TweetList:
+    properties:
+      count:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/entity.Tweet'
         type: array
     type: object
   entity.User:
@@ -581,6 +628,150 @@ paths:
       summary: Get a list of users
       tags:
       - tag
+  /tweet:
+    post:
+      consumes:
+      - application/json
+      description: Create a new tweet
+      parameters:
+      - description: Tweet object
+        in: body
+        name: tweet
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Tweet'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.Tweet'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create a new tweet
+      tags:
+      - tweet
+    put:
+      consumes:
+      - application/json
+      description: Update a tweet
+      parameters:
+      - description: Tweet object
+        in: body
+        name: tweet
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Tweet'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Tweet'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update a tweet
+      tags:
+      - tweet
+  /tweet/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a tweet
+      parameters:
+      - description: Tweet ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete a tweet
+      tags:
+      - tweet
+    get:
+      consumes:
+      - application/json
+      description: Get a tweet by ID
+      parameters:
+      - description: Tweet ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Tweet'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get a tweet by ID
+      tags:
+      - tweet
+  /tweet/list:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of tweets
+      parameters:
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: number
+      - description: limit
+        in: query
+        name: limit
+        required: true
+        type: number
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.TweetList'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get a list of tweets
+      tags:
+      - tweet
   /user:
     post:
       consumes:

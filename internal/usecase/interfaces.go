@@ -52,4 +52,23 @@ type (
 		UpsertOrRemove(ctx context.Context, req entity.Follower) (entity.Follower, error)
 		GetList(ctx context.Context, req entity.GetListFilter) (entity.UserList, error)
 	}
+
+	// Tweet attachment
+	TweetAttachentRepoI interface {
+		Create(ctx context.Context, req entity.Attachment) (entity.Attachment, error)
+		MultipleUpsert(ctx context.Context, req entity.AttachmentMultipleInsertRequest) ([]entity.Attachment, error)
+		GetSingle(ctx context.Context, req entity.Id) (entity.Attachment, error)
+		GetList(ctx context.Context, req entity.GetListFilter) (entity.AttachmentList, error)
+		Delete(ctx context.Context, req entity.Id) error
+	}
+
+	// Tweet
+	TweetI interface {
+		Create(ctx context.Context, req entity.Tweet) (entity.Tweet, error)
+		GetSingle(ctx context.Context, req entity.Id) (entity.Tweet, error)
+		GetList(ctx context.Context, req entity.GetListFilter) (entity.TweetList, error)
+		Update(ctx context.Context, req entity.Tweet) (entity.Tweet, error)
+		Delete(ctx context.Context, req entity.Id) error
+		UpdateField(ctx context.Context, req entity.UpdateFieldRequest) (entity.RowsEffected, error)
+	}
 )
