@@ -6,7 +6,7 @@ definitions:
         type: string
       created_at:
         type: string
-      file_path:
+      filepath:
         type: string
       id:
         type: string

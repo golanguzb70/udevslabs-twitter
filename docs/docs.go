@@ -1156,7 +1156,7 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
-                "file_path": {
+                "filepath": {
                     "type": "string"
                 },
                 "id": {
